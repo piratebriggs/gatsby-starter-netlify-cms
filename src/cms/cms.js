@@ -18,7 +18,7 @@ CMS.registerPreviewTemplate('blog', BlogPostPreview)
 const config = {
     backend: {
         name: github,
-        repo: piratebriggs/gatsby-starter-netlify-cms,
+        repo: 'piratebriggs/gatsby-starter-netlify-cms',
       squash_merges: true,
       commit_messages: {
         create: 'docs(nel-site): Create {{collection}} "{{slug}}"',
@@ -27,6 +27,10 @@ const config = {
         uploadMedia: 'docs(nel-site): Upload "{{path}}"',
         deleteMedia: 'docs(nel-site): Delete "{{path}}"',
       },
+      identity_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/identity",  // https://github.com/hfte/netlify-cms-with-selfhosted-gotrue-and-git-gateway
+      gateway_url:  "https://romantic-goodall-a60fe4.netlify.app/.netlify/git",
+      site_domain:  "https://romantic-goodall-a60fe4.netlify.app/",
+  
     },
   
     load_config_file: false,
