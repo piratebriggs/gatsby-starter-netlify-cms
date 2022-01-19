@@ -1,6 +1,10 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: piratebriggs/gatsby-starter-netlify-cms
   branch: master
+  identity_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/identity"
+  gateway_url:  "https://romantic-goodall-a60fe4.netlify.app/.netlify/git"
+  site_domain:  "https://romantic-goodall-a60fe4.netlify.app/"
   commit_messages:
     create: "Create {{collection}} “{{slug}}”"
     update: "Update {{collection}} “{{slug}}”"
@@ -8,7 +12,7 @@ backend:
     uploadMedia: "[skip ci] Upload “{{path}}”"
     deleteMedia: "[skip ci] Delete “{{path}}”"
 
-local_backend: true
+local_backend: false
 media_folder: static/img
 public_folder: /img
 
