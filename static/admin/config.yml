@@ -2,9 +2,9 @@ backend:
   name: git-gateway
   repo: piratebriggs/gatsby-starter-netlify-cms
   branch: git-gateway
-  base_url: "https://nice-smoke-02bdc7303.1.azurestaticapps.net/"
-  identity_url: "https://nice-smoke-02bdc7303.1.azurestaticapps.net/.netlify/identity"
-  gateway_url: "https://nice-smoke-02bdc7303.1.azurestaticapps.net/.netlify/git"
+  base_url: "https://romantic-goodall-a60fe4.netlify.app/"
+  identity_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/identity"
+  gateway_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/git"
   site_domain: "romantic-goodall-a60fe4.netlify.app"
   commit_messages:
     create: "Create {{collection}} “{{slug}}”"
