@@ -1,7 +1,7 @@
 backend:
   name: git-gateway
   repo: piratebriggs/gatsby-starter-netlify-cms
-  branch: git-gateway
+  branch: notgitgateway
   base_url: "https://romantic-goodall-a60fe4.netlify.app/"
   identity_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/identity"
   gateway_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/git"
