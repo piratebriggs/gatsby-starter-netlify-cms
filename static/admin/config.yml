@@ -4,7 +4,7 @@ backend:
   branch: git-gateway
   identity_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/identity"
   gateway_url:  "https://romantic-goodall-a60fe4.netlify.app/.netlify/git"
-  site_domain:  "https://romantic-goodall-a60fe4.netlify.app/"
+  site_domain:  "romantic-goodall-a60fe4.netlify.app"
   commit_messages:
     create: "Create {{collection}} “{{slug}}”"
     update: "Update {{collection}} “{{slug}}”"
