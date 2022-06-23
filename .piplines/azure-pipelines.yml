@@ -11,13 +11,13 @@ variables:
   azureContainerRegistry: jssproxy1975.azurecr.io
   image: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
 
+steps:
 - script: |
     set -e
 
     echo "Image: $image"
   displayName: Build site
 
-steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '14.x'
