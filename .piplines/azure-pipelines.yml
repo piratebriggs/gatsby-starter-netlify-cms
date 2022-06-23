@@ -26,27 +26,27 @@ steps:
     versionSpec: '14.x'
   displayName: 'Install Node.js'
 
-# - script: |
-#     node --version
-#     npm -v
-#     npm install
-#     npm run build
-#   displayName: 'yarn install and build'
+- script: |
+    node --version
+    npm -v
+    npm install
+    npm run build
+  displayName: 'yarn install and build'
 
-# - task: Docker@1
-#   displayName: Container registry login
-#   inputs:
-#     command: login
-#     azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
-#     azureContainerRegistry: $(azureContainerRegistry)
+- task: Docker@1
+  displayName: Container registry login
+  inputs:
+    command: login
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(azureContainerRegistry)
 
-# - script: |
-#     set -e
+- script: |
+    set -e
 
-#     echo "Building $IMAGENAME..."
-#     docker build -t $IMAGENAME .
-#     docker push $IMAGENAME
-#   displayName: Build site
+    echo "Building $IMAGENAME..."
+    docker build -t $IMAGENAME .
+    docker push $IMAGENAME
+  displayName: Build site
 
 # Create CI Staging Slot for PR
 - task: AzureCLI@1

@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: piratebriggs/gatsby-starter-netlify-cms
-  branch: master
+  branch: main
   base_url: "https://github-oauth-provider.azurewebsites.net"
   commit_messages:
     create: "docs(nel-site): Create {{collection}} '{{slug}}'"
