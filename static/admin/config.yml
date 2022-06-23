@@ -2,9 +2,7 @@ backend:
   name: github
   repo: piratebriggs/gatsby-starter-netlify-cms
   branch: master
-  identity_url: "https://romantic-goodall-a60fe4.netlify.app/.netlify/identity"
-  gateway_url:  "https://romantic-goodall-a60fe4.netlify.app/.netlify/git"
-  site_domain:  "romantic-goodall-a60fe4.netlify.app"
+  base_url: "https://github-oauth-provider.azurewebsites.net"
   commit_messages:
     create: "Create {{collection}} “{{slug}}”"
     update: "Update {{collection}} “{{slug}}”"
