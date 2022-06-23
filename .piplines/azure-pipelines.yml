@@ -9,8 +9,8 @@ pool:
 variables:
   azureSubscriptionEndpoint: NEL-SPN
   azureContainerRegistry: jssproxy1975.azurecr.io
-  # imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
-  imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:20220623.10-master
+  imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
+  # imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:20220623.10-master
   webApp.name: 'gatsby-netlify-cms'
   webApp.resourceGroup: 'rg-abtest-staticweb'
   IS_MAIN: ${{ eq(variables['Build.SourceBranchName'], 'main') }}
