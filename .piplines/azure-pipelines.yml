@@ -9,45 +9,83 @@ pool:
 variables:
   azureSubscriptionEndpoint: NEL-SPN
   azureContainerRegistry: jssproxy1975.azurecr.io
-  imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
+  # imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
+  imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:20220623.10-master
+  webApp.name: 'gatsby-netlify-cms'
+  webApp.resourceGroup: 'rg-abtest-staticweb'
+  IS_MAIN: ${{ eq(variables['Build.SourceBranchName'], 'main') }}
+  IS_RELEASE: ${{ eq(variables.IS_MAIN, True) }}
+  IS_EPHEMERAL: ${{ eq(variables.IS_MAIN, False) }}
 
 steps:
-- script: |
-    set -e
-
-    echo "Image: $IMAGENAME"
-  displayName: Build site
-
 - task: NodeTool@0
   inputs:
     versionSpec: '14.x'
   displayName: 'Install Node.js'
 
-- script: |
-    node --version
-    npm -v
-    npm install
-    npm run build
-  displayName: 'yarn install and build'
+# - script: |
+#     node --version
+#     npm -v
+#     npm install
+#     npm run build
+#   displayName: 'yarn install and build'
 
-- task: Docker@1
-  displayName: Container registry login
+# - task: Docker@1
+#   displayName: Container registry login
+#   inputs:
+#     command: login
+#     azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+#     azureContainerRegistry: $(azureContainerRegistry)
+
+# - script: |
+#     set -e
+
+#     echo "Building $IMAGENAME..."
+#     docker build -t $IMAGENAME .
+#     docker push $IMAGENAME
+#   displayName: Build site
+
+# Create CI Staging Slot for PR
+- task: AzureCLI@1
   inputs:
-    command: login
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
-    azureContainerRegistry: $(azureContainerRegistry)
+    azureSubscription: $(azureSubscriptionEndpoint)
+    addSpnToEnvironment: true
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      # Create staging slot for PR
+      echo 'Creating staging slot for PR...'
+      az webapp deployment slot create \
+          --name $(webApp.name) \
+          --resource-group $(webApp.resourceGroup) \
+          --slot pr-$(System.PullRequest.PullRequestId)
+      echo "Created staging slot for PR " $(System.PullRequest.PullRequestId)
 
-- script: |
-    set -e
+  displayName: 'Create CI Staging Slot For PR'
+  condition: and(succeeded(),  eq(variables.IS_EPHEMERAL, True))
 
-    echo "Building $IMAGENAME..."
-    docker build -t $IMAGENAME .
-    docker push $IMAGENAME
-  displayName: Build site
+- bash: |
+   # Add PR comment with link to staging
+   message="Created staging environment for PR - https://$(webApp.name)-pr-"$(System.PullRequest.PullRequestId)".azurewebsites.net/"
+   echo "$message"
+  displayName: '<<<BUILD URL>>>'
+  condition: and(succeeded(),  eq(variables.IS_EPHEMERAL, True))
 
 - task: AzureWebAppContainer@1
-  displayName: Azure Web App on Container Deploy
+  displayName: Deploy to Slot
   inputs:
-    appName: gatsby-netlify-cms
+    appName: $(webApp.name)
     azureSubscription: $(azureSubscriptionEndpoint)
     imageName: $(imageName)
+    deployToSlotOrASE: true
+    SlotName: 'pr-$(System.PullRequest.PullRequestId)'
+  condition: and(succeeded(),  eq(variables.IS_EPHEMERAL, True))
+
+- task: AzureWebAppContainer@1
+  displayName: Deploy to Live
+  inputs:
+    appName: $(webApp.name)
+    azureSubscription: $(azureSubscriptionEndpoint)
+    imageName: $(imageName)
+  condition: and(succeeded(),  eq(variables.IS_RELEASE, True))
+
