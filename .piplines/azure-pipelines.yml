@@ -9,13 +9,13 @@ pool:
 variables:
   azureSubscriptionEndpoint: NEL-SPN
   azureContainerRegistry: jssproxy1975.azurecr.io
-  image: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
+  imageName: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
 
 steps:
 - script: |
     set -e
 
-    echo "Image: $image"
+    echo "Image: $IMAGENAME"
   displayName: Build site
 
 - task: NodeTool@0
@@ -40,9 +40,9 @@ steps:
 - script: |
     set -e
 
-    echo "Building $image..."
-    docker build -t $image .
-    docker push $image
+    echo "Building $IMAGENAME..."
+    docker build -t $IMAGENAME .
+    docker push $IMAGENAME
   displayName: Build site
 
 - task: AzureWebAppContainer@1
@@ -50,4 +50,4 @@ steps:
   inputs:
     appName: gatsby-netlify-cms
     azureSubscription: $(azureSubscriptionEndpoint)
-    imageName: $(image)
+    imageName: $(imageName)
