@@ -17,6 +17,9 @@ variables:
   IS_RELEASE: ${{ eq(variables.IS_MAIN, True) }}
   IS_EPHEMERAL: ${{ eq(variables.IS_MAIN, False) }}
 
+  BRANCH_NAME: ${{ lower(variables['Build.SourceBranchName']) }}
+  SLOT_NAME: pr-${{ lower(replace(variables.BRANCH_NAME, '.', '-')) }}  
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -58,7 +61,7 @@ steps:
       az webapp deployment slot create \
           --name $(webApp.name) \
           --resource-group $(webApp.resourceGroup) \
-          --slot pr-$(System.PullRequest.PullRequestId)
+          --slot $(SLOT_NAME)
       echo "Created staging slot for PR " $(System.PullRequest.PullRequestId)
 
   displayName: 'Create CI Staging Slot For PR'
@@ -66,7 +69,7 @@ steps:
 
 - bash: |
    # Add PR comment with link to staging
-   message="Created staging environment for PR - https://$(webApp.name)-pr-"$(System.PullRequest.PullRequestId)".azurewebsites.net/"
+   message="Created staging environment for PR - https://$(webApp.name)-"$(SLOT_NAME)".azurewebsites.net/"
    echo "$message"
   displayName: '<<<BUILD URL>>>'
   condition: and(succeeded(),  eq(variables.IS_EPHEMERAL, True))
@@ -78,7 +81,7 @@ steps:
     azureSubscription: $(azureSubscriptionEndpoint)
     imageName: $(imageName)
     deployToSlotOrASE: true
-    SlotName: 'pr-$(System.PullRequest.PullRequestId)'
+    SlotName: '$(SLOT_NAME)'
   condition: and(succeeded(),  eq(variables.IS_EPHEMERAL, True))
 
 - task: AzureWebAppContainer@1
