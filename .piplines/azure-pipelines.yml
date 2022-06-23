@@ -62,7 +62,7 @@ steps:
           --name $(webApp.name) \
           --resource-group $(webApp.resourceGroup) \
           --slot $(SLOT_NAME)
-      echo "Created staging slot for PR " $(System.PullRequest.PullRequestId)
+      echo "Created staging slot for branch " $(SLOT_NAME)
 
   displayName: 'Create CI Staging Slot For PR'
   condition: and(succeeded(),  eq(variables.IS_EPHEMERAL, True))
