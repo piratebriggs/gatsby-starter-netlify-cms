@@ -4,11 +4,11 @@ backend:
   branch: master
   base_url: "https://github-oauth-provider.azurewebsites.net"
   commit_messages:
-    create: "Create {{collection}} “{{slug}}”"
-    update: "Update {{collection}} “{{slug}}”"
-    delete: "Delete {{collection}} “{{slug}}”"
-    uploadMedia: "[skip ci] Upload “{{path}}”"
-    deleteMedia: "[skip ci] Delete “{{path}}”"
+    create: "docs(nel-site): Create {{collection}} '{{slug}}'"
+    update: "docs(nel-site): Update {{collection}} '{{slug}}'"
+    delete: "docs(nel-site): Delete {{collection}} '{{slug}}'"
+    uploadMedia: "docs(nel-site): Upload '{{path}}'"
+    deleteMedia: "docs(nel-site): Delete '{{path}}'"
 
 local_backend: false
 media_folder: static/img
