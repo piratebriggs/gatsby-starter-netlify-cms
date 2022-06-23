@@ -6,6 +6,11 @@ trigger:
 pool:
   name: NBS-MC-NEL-SC-DEV-BUILD
 
+variables:
+  azureSubscriptionEndpoint: NEL-SPN
+  azureContainerRegistry: jssproxy1975.azurecr.io
+  image: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(BUILD_BUILDNUMBER)
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -13,6 +18,28 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    yarn
-    yarn build
+    npm install
+    npm run build
   displayName: 'yarn install and build'
+
+- task: Docker@1
+  displayName: Container registry login
+  inputs:
+    command: login
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(azureContainerRegistry)
+
+- script: |
+    set -e
+
+    echo "Building $image..."
+    docker build -t $image .
+    docker push $image
+  displayName: Build site
+
+- task: AzureWebAppContainer@1
+  displayName: Azure Web App on Container Deploy
+  inputs:
+    appName: gatsby-netlify-cms
+    azureSubscription: $(azureSubscriptionEndpoint)
+    imageName: $(image)
