@@ -9,7 +9,13 @@ pool:
 variables:
   azureSubscriptionEndpoint: NEL-SPN
   azureContainerRegistry: jssproxy1975.azurecr.io
-  image: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(BUILD_BUILDNUMBER)
+  image: $(azureContainerRegistry)/gatsby-starter-netlify-cms:$(Build.BuildNumber)
+
+- script: |
+    set -e
+
+    echo "Image: $image"
+  displayName: Build site
 
 steps:
 - task: NodeTool@0
@@ -18,6 +24,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    node --version
+    npm -v
     npm install
     npm run build
   displayName: 'yarn install and build'
