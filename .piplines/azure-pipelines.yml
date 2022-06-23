@@ -4,7 +4,7 @@ trigger:
 - master
 
 pool:
-  name: NBS-MC-COUK-SC-DEV-BUILD
+  name: NBS-MC-NEL-SC-DEV-BUILD
 
 steps:
 - task: NodeTool@0
